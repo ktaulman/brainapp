@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import SignIn from "./Components/SignIn/SignIn"
+import Register from './Components/Register/Register'
 import Navigation from './Components/Navigation/Navigation';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from "./Components/FaceRecognition/FaceRecognition";
@@ -32,8 +34,10 @@ class App extends React.Component{
     super();
     this.state={
         input:'',
-        imageUrl:'https://amp.businessinsider.com/images/5b62bbee959f341e2e8b4738-640-427.jpg',
+        imageUrl:'',
         box:{},
+        route:'signin',
+        isSignedIn:false,
     }
   }
 
@@ -42,8 +46,17 @@ class App extends React.Component{
     const image=document.getElementById('inputImage');
     const width=Number(image.width);
     const height=Number(image.height);
-    console.log(image,width,height);
-    console.log(clarifaiFace)
+ 
+    return {
+        leftCol: clarifaiFace.left_col * width,
+        topRow:clarifaiFace.top_row * height,
+        rightCol:width-(clarifaiFace.right_col*width),
+        bottomRow:height-(clarifaiFace.bottom_row*height)
+      }
+  }
+  //helper function
+  displayFaceBox=(box)=>{
+    this.setState({box:box});
   }
 
   onInputChange=(e)=>{
@@ -55,30 +68,54 @@ class App extends React.Component{
     this.setState({imageUrl:this.state.input})
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL,this.state.input)
-      .then(response=>this.calculateFaceLocation(response))
+      .then(response=>this.displayFaceBox(this.calculateFaceLocation(response)))
       .catch(err=>console.log(err))
   }
+  onRouteChange=(route)=>{
+   if( route==="signout"){
+      this.setState({isSignedIn:false})
+   }
+   else if(route==="home"){
+      this.setState({isSignedIn:true})
+   }
+    this.setState({route:route});
+  }
+ 
   //
   render(){
-    return (
+    const {isSignedIn,imageUrl,route,box}=this.state
+    return ( 
     <div className="App">
         <Particles 
           className="particles"
           params={particlesOptions} 
-
         />
-        <div className="flex justify-between items-center">
-          <Logo />
-          <Navigation />
-        </div>
+     
+      <Navigation 
+        onRouteChange={this.onRouteChange}
+        isSignedIn={isSignedIn}
+      /> 
+     {route==="home"? 
+     <div>
+        <Logo />
         <Rank />
-      
-       <ImageLinkForm 
-       onInputChange={this.onInputChange}
-       onButtonSubmit={this.onButtonSubmit}  
-       />
-       <FaceRecognition imageUrl={this.state.imageUrl}/>
-   
+        <ImageLinkForm 
+          onInputChange={this.onInputChange}
+          onButtonSubmit={this.onButtonSubmit}  
+        />
+        <FaceRecognition 
+          imageUrl={imageUrl}
+          box={box}  
+        />
+      </div>
+      :
+      (
+        route==='signin'?
+        <SignIn onRouteChange={this.onRouteChange}/>
+        :
+        <Register onRouteChange={this.onRouteChange}/>
+      )
+     }
     </div>
   )
 }
