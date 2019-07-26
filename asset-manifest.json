@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "ktaulman.github.io/brainapp/static/css/main.dae4babd.chunk.css",
+    "main.js": "ktaulman.github.io/brainapp/static/js/main.059bfbb2.chunk.js",
+    "main.js.map": "ktaulman.github.io/brainapp/static/js/main.059bfbb2.chunk.js.map",
+    "runtime~main.js": "ktaulman.github.io/brainapp/static/js/runtime~main.54efb5a3.js",
+    "runtime~main.js.map": "ktaulman.github.io/brainapp/static/js/runtime~main.54efb5a3.js.map",
+    "static/css/2.e40df323.chunk.css": "ktaulman.github.io/brainapp/static/css/2.e40df323.chunk.css",
+    "static/js/2.a110a239.chunk.js": "ktaulman.github.io/brainapp/static/js/2.a110a239.chunk.js",
+    "static/js/2.a110a239.chunk.js.map": "ktaulman.github.io/brainapp/static/js/2.a110a239.chunk.js.map",
+    "index.html": "ktaulman.github.io/brainapp/index.html",
+    "precache-manifest.845a33d09217ed0739aeae94bc0654df.js": "ktaulman.github.io/brainapp/precache-manifest.845a33d09217ed0739aeae94bc0654df.js",
+    "service-worker.js": "ktaulman.github.io/brainapp/service-worker.js",
+    "static/css/2.e40df323.chunk.css.map": "ktaulman.github.io/brainapp/static/css/2.e40df323.chunk.css.map",
+    "static/css/main.dae4babd.chunk.css.map": "ktaulman.github.io/brainapp/static/css/main.dae4babd.chunk.css.map"
+  }
+}
