@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/brainapp/static/css/main.dae4babd.chunk.css",
+    "main.js": "/brainapp/static/js/main.a4602f0d.chunk.js",
+    "main.js.map": "/brainapp/static/js/main.a4602f0d.chunk.js.map",
+    "runtime~main.js": "/brainapp/static/js/runtime~main.7a1efb8e.js",
+    "runtime~main.js.map": "/brainapp/static/js/runtime~main.7a1efb8e.js.map",
+    "static/css/2.e40df323.chunk.css": "/brainapp/static/css/2.e40df323.chunk.css",
+    "static/js/2.2aa0ebca.chunk.js": "/brainapp/static/js/2.2aa0ebca.chunk.js",
+    "static/js/2.2aa0ebca.chunk.js.map": "/brainapp/static/js/2.2aa0ebca.chunk.js.map",
+    "index.html": "/brainapp/index.html",
+    "precache-manifest.2351d32ff3abec2dd375f96d6b8c5cf1.js": "/brainapp/precache-manifest.2351d32ff3abec2dd375f96d6b8c5cf1.js",
+    "service-worker.js": "/brainapp/service-worker.js",
+    "static/css/2.e40df323.chunk.css.map": "/brainapp/static/css/2.e40df323.chunk.css.map",
+    "static/css/main.dae4babd.chunk.css.map": "/brainapp/static/css/main.dae4babd.chunk.css.map"
+  }
+}

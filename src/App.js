@@ -54,7 +54,7 @@ class App extends React.Component{
         bottomRow:height-(clarifaiFace.bottom_row*height)
       }
   }
-  //helper function
+  //Functions
   displayFaceBox=(box)=>{
     this.setState({box:box});
   }
