@@ -40,8 +40,8 @@ class App extends React.Component{
         isSignedIn:false,
     }
   }
-
-  calculateFaceLocation=(data)=>{
+  //LifeCycles 
+   calculateFaceLocation=(data)=>{
     const clarifaiFace=data.outputs[0].data.regions[0].region_info.bounding_box;
     const image=document.getElementById('inputImage');
     const width=Number(image.width);
@@ -80,6 +80,9 @@ class App extends React.Component{
    }
     this.setState({route:route});
   }
+  onSignIn=()=>{
+    
+  }
  
   //
   render(){
@@ -111,7 +114,10 @@ class App extends React.Component{
       :
       (
         route==='signin'?
-        <SignIn onRouteChange={this.onRouteChange}/>
+        <SignIn 
+          onRouteChange={this.onRouteChange}
+          onSignIn={this.onSignIn}
+        />
         :
         <Register onRouteChange={this.onRouteChange}/>
       )
