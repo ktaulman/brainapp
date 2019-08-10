@@ -55,11 +55,12 @@ class Register extends React.Component{
         headers:{"Content-Type":"application/json"}
       })
         .then(res=>res.json())
-        .then(data=>{
-          if(data==="registered"){
-            this.props.onRouteChange('sign-in')
+        .then(user=>{
+          if(user){
+            this.props.loadUser(user);
+            this.props.onRouteChange('home')
           }else{
-            console.log(data)
+            console.log(user)
           }
       })
         .catch(err=>console.log(err))
@@ -67,6 +68,7 @@ class Register extends React.Component{
   }
 
   render(){
+   
     return(
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
        <main className="pa4 black-80">
@@ -102,8 +104,7 @@ class Register extends React.Component{
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
               type="submit" 
               value="Register"
-              onClick={(e)=>this.onRegisterSubmit(e)}
-              //{ ()=>this.props.onRouteChange('home')}    
+              onClick={(e)=>this.onRegisterSubmit(e)}   
               />
             </div>
            

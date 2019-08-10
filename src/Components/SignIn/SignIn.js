@@ -26,8 +26,9 @@ class SignIn extends React.Component{
         headers:{"Content-Type":"application/json"}
       })
         .then(res=>res.json())
-        .then(data=>{
-          if(data==="signed-in"){
+        .then(user=>{
+          if(user){
+            this.props.loadUser(user)
             this.props.onRouteChange('home')
           }
         })

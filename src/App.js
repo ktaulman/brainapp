@@ -11,10 +11,11 @@ import Particles from 'react-particles-js';
 
 import 'tachyons';
 
+
 //API-KEYS 
 const Clarifai = require('clarifai');
 const app = new Clarifai.App({
-  apiKey: '9a35c439201d4365a8f9583d9c6e9612'
+  apiKey: 'a448da03a2814ac1b4781e6a65e34381'
  });
 
 const particlesOptions={
@@ -38,6 +39,13 @@ class App extends React.Component{
         box:{},
         route:'signin',
         isSignedIn:false,
+        user:{
+              email:'',
+              name:'',
+              id:'',
+              entries:0,
+              joined:''
+              }
     }
   }
   //LifeCycles 
@@ -64,11 +72,31 @@ class App extends React.Component{
     this.setState({input:e.target.value});
   }
 
-  onButtonSubmit=()=>{ 
+  onPictureSubmit=()=>{ 
     this.setState({imageUrl:this.state.input})
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL,this.state.input)
-      .then(response=>this.displayFaceBox(this.calculateFaceLocation(response)))
+      .then(response=>{
+          if(response){
+            fetch('http://localhost:3000/image',{
+              method:"PUT",
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({
+                id:this.state.user.id
+              })
+            })
+            .then(res=>{
+              JSON.parse(res)
+              console.log("res received")
+            })
+            .then(count=>{ 
+             this.setState(Object.assign(this.state.user,{entries:count}))
+            })
+
+            .catch(err=>console.log("Error at PUT Fetch",err))
+          }
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      })
       .catch(err=>console.log(err))
   }
   onRouteChange=(route)=>{
@@ -80,14 +108,27 @@ class App extends React.Component{
    }
     this.setState({route:route});
   }
+  loadUser(data){
+    this.setState({
+        user:{
+          name:data.name,
+          id:data.id,
+          email:data.email,
+          entries:data.entries,
+          joined:data.joined,
+        }
+      })
+  }
   onSignIn=()=>{
     
   }
  
   //
   render(){
-    const {isSignedIn,imageUrl,route,box}=this.state
+    const {isSignedIn,imageUrl,route,box}=this.state;
+    console.log("rendered",this.state.user);
     return ( 
+     
     <div className="App">
         <Particles 
           className="particles"
@@ -101,10 +142,12 @@ class App extends React.Component{
      {route==="home"? 
      <div>
         <Logo />
-        <Rank />
+        <Rank name={this.state.user.name} 
+        entries={this.state.user.entries}  
+        />
         <ImageLinkForm 
           onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}  
+          onPictureSubmit={this.onPictureSubmit}  
         />
         <FaceRecognition 
           imageUrl={imageUrl}
@@ -116,10 +159,12 @@ class App extends React.Component{
         route==='signin'?
         <SignIn 
           onRouteChange={this.onRouteChange}
-          onSignIn={this.onSignIn}
+          loadUser={(user)=>this.loadUser(user)}
         />
         :
-        <Register onRouteChange={this.onRouteChange}/>
+        <Register 
+        loadUser={(user)=>this.loadUser(user)}
+        onRouteChange={this.onRouteChange}/>
       )
      }
     </div>
