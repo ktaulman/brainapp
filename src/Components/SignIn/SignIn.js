@@ -19,7 +19,9 @@ class SignIn extends React.Component{
     }
 
     onSubmitSignIn=()=>{
-      const input ={email:this.state.signInEmail,password:this.state.signInPassword}
+      const{signInEmail,signInPassword}=this.state;
+      const input ={email:signInEmail,password:signInPassword};
+
       fetch("http://localhost:3000/signin",{
         method:"POST",
         body:JSON.stringify(input),
@@ -27,12 +29,27 @@ class SignIn extends React.Component{
       })
         .then(res=>res.json())
         .then(user=>{
-          if(user){
+          if(typeof user==="object"){
             this.props.loadUser(user)
             this.props.onRouteChange('home')
           }
+          else{
+            function displayError(){
+              const display=document.getElementById('sign-in');
+              const result=document.createElement('p');result.innerHTML=`${user}`
+
+              display.appendChild(result);
+              result.setAttribute('id','result')
+              const remove=()=>{
+                display.removeChild(result);
+              }
+              setTimeout(()=>remove(),2000)
+            }
+
+            displayError();
+          }
         })
-        .catch(err=>console.log(err))//
+        .catch(err=>console.log('error'));
     }
 
     render(){
@@ -62,7 +79,9 @@ class SignIn extends React.Component{
                 onChange={(e)=>this.onPasswordChange(e)}
                 />
               </div>
-              {/* <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox"/> Remember me</label> */}
+             
+             <div id='sign-in'></div>
+
             </fieldset>
             <div className="">
               <input 

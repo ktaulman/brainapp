@@ -25,46 +25,39 @@ class Register extends React.Component{
   }
 
   onRegisterSubmit(e){
-    e.preventDefault();
+    e.preventDefault()
     const {registerName,registerEmail,registerPassword}=this.state
-    //Pop up if field is missing in the file. 
-     if(registerName.length===0||registerEmail.length===0||registerPassword.length===0){
-        if(document.getElementById('popup')) return;
-        const returnPopUp=()=>{
-          let registerField=document.getElementById("registerField")
-          let popup=document.createElement('h2')
-          popup.innerHTML="A field is missing"
-          popup.setAttribute('id','popup')
-          registerField.appendChild(popup)
-        }
-        const removePopUp=()=>{
-          let registerField=document.getElementById("registerField");
-          let popup=document.getElementById("popup")
-          registerField.removeChild(popup)
-        }
-        returnPopUp();
-        setTimeout(removePopUp,1500)
-    }
-    //fetch the API Request 
-    else{
       let input={name:registerName,email:registerEmail,password:registerPassword}
+      
       fetch('http://localhost:3000/register',{
         
         method:"POST",
         body:JSON.stringify(input),
         headers:{"Content-Type":"application/json"}
-      })
-        .then(res=>res.json())
+      }).then(res=>res.json())
         .then(user=>{
-          if(user){
+         
+          if(typeof user==='object'){
             this.props.loadUser(user);
             this.props.onRouteChange('home')
           }else{
-            console.log(user)
+            function displayError(){
+              const display=document.getElementById('registerResult');
+              const result=document.createElement('p');result.innerHTML=`${user}`
+
+              display.appendChild(result);
+              result.setAttribute('id','result')
+              const remove=()=>{
+                display.removeChild(result);
+              }
+              setTimeout(()=>remove(),2000)
+            }
+
+            displayError();
           }
       })
-        .catch(err=>console.log(err))
-    }
+        .catch(err=>console.log('this is the err',err))
+    
   }
 
   render(){
@@ -99,6 +92,7 @@ class Register extends React.Component{
               </div>
              
             </fieldset>
+            <div id='registerResult'></div>
             <div className="" id="registerField">
               <input 
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
