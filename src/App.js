@@ -13,10 +13,7 @@ import 'tachyons';
 
 
 //API-KEYS 
-const Clarifai = require('clarifai');
-const app = new Clarifai.App({
-  apiKey: 'a448da03a2814ac1b4781e6a65e34381'
- });
+
 
 const particlesOptions={
   particles: {
@@ -29,6 +26,15 @@ const particlesOptions={
     }
 }
 }
+const initialUserState ={
+    email:'',
+    name:'',
+    id:'',
+    entries:0,
+    joined:''
+}
+const initialImageState='';
+
 
 class App extends React.Component{
   constructor(){
@@ -74,8 +80,13 @@ class App extends React.Component{
 
   onPictureSubmit=()=>{ 
     this.setState({imageUrl:this.state.input})
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL,this.state.input)
+      fetch('http://localhost:3000/imageurl',{
+        method:'POST',
+        headers:{'CONTENT-TYPE':'application/json'},body:JSON.stringify({
+          input:this.state.input
+        })
+      })
+      .then(res=>res.json())
       .then(response=>{
           if(response){
             fetch('http://localhost:3000/image',{
@@ -98,7 +109,10 @@ class App extends React.Component{
   }
   onRouteChange=(route)=>{
    if( route==="signout"){
-      this.setState({isSignedIn:false})
+     console.log('signing out')
+     this.setState({isSignedIn:!this.state.isSignedIn})
+      this.setState({user:initialUserState})
+      this.setState({imageURL:initialImageState})
    }
    else if(route==="home"){
       this.setState({isSignedIn:true})
@@ -123,7 +137,7 @@ class App extends React.Component{
   //
   render(){
     const {isSignedIn,imageUrl,route,box}=this.state;
-    console.log("rendered",this.state.user);
+    console.log("rendered",this.state.user,this.state.imageURL);
     return ( 
      
     <div className="App">

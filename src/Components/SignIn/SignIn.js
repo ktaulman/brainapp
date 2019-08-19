@@ -9,12 +9,10 @@ class SignIn extends React.Component{
       }
     }
     onEmailChange(e){
-      console.log(e.target.value);
       this.setState({signInEmail:e.target.value});
     }
 
     onPasswordChange(e){
-      console.log(e.target.value);
       this.setState({signInPassword:e.target.value});
     }
 
