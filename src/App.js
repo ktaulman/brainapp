@@ -80,16 +80,17 @@ class App extends React.Component{
 
   onPictureSubmit=()=>{ 
     this.setState({imageUrl:this.state.input})
-      fetch('https://mysterious-scrubland-34639.herokuapp.com/imageurl',{
+      fetch(process.env.REACT_APP_API_ADDRESS+'/imageurl',{
         method:'POST',
-        headers:{'CONTENT-TYPE':'application/json'},body:JSON.stringify({
+        headers:{'CONTENT-TYPE':'application/json'},
+        body:JSON.stringify({
           input:this.state.input
         })
       })
       .then(res=>res.json())
       .then(response=>{
           if(response){
-            fetch('https://mysterious-scrubland-34639.herokuapp.com/image',{
+            fetch(process.env.REACT_APP_API_ADDRESS+'/image',{
               method:"PUT",
               headers:{'Content-Type':'application/json'},
               body:JSON.stringify({

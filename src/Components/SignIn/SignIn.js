@@ -19,13 +19,16 @@ class SignIn extends React.Component{
     onSubmitSignIn=()=>{
       const{signInEmail,signInPassword}=this.state;
       const input ={email:signInEmail,password:signInPassword};
-
-      fetch("https://mysterious-scrubland-34639.herokuapp.com/signin",{
+      console.log(process.env)
+      console.log(process.env.REACT_APP_API_ADDRESS+"/signin")
+      fetch(process.env.REACT_APP_API_ADDRESS+"/signin",{
         method:"POST",
         body:JSON.stringify(input),
         headers:{"Content-Type":"application/json"}
       })
-        .then(res=>res.json())
+        .then(res=>{
+          console.log(res)
+          res.json()})
         .then(user=>{
           if(typeof user==="object"){
             this.props.loadUser(user)

@@ -28,8 +28,8 @@ class Register extends React.Component{
     e.preventDefault()
     const {registerName,registerEmail,registerPassword}=this.state
       let input={name:registerName,email:registerEmail,password:registerPassword}
-      
-      fetch('https://mysterious-scrubland-34639.herokuapp.com/register',{
+      console.log(process.env)
+      fetch(process.env.REACT_APP_API_ADDRESS+'/register',{
         
         method:"POST",
         body:JSON.stringify(input),
