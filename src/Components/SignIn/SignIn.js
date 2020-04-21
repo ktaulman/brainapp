@@ -15,42 +15,64 @@ class SignIn extends React.Component{
     onPasswordChange(e){
       this.setState({signInPassword:e.target.value});
     }
+ 
+    displayError(parentElementId,errMessage){
+        const display=document.getElementById(parentElementId);
+        const result=document.createElement('p');result.innerHTML=`${errMessage}`
+
+        display.appendChild(result);
+        result.setAttribute('id','result')
+        const remove=()=>{
+          display.removeChild(result);
+        }
+        setTimeout(()=>remove(),2000)
+      }
 
     onSubmitSignIn=()=>{
       const{signInEmail,signInPassword}=this.state;
       const input ={email:signInEmail,password:signInPassword};
-      console.log(process.env)
-      console.log(process.env.REACT_APP_API_ADDRESS+"/signin")
+    
       fetch(process.env.REACT_APP_API_ADDRESS+"/signin",{
         method:"POST",
         body:JSON.stringify(input),
         headers:{"Content-Type":"application/json"}
       })
         .then(res=>{
-          console.log(res)
-          res.json()})
+          //error handling
+          if(res.status===400){
+            return res.json().then(err=>{
+            this.displayError('sign-in',err)
+            })
+          }
+          //then parse the json
+          return res.json();
+        })
         .then(user=>{
+          console.log(user)
+          
           if(typeof user==="object"){
             this.props.loadUser(user)
             this.props.onRouteChange('home')
           }
-          else{
-            function displayError(){
-              const display=document.getElementById('sign-in');
-              const result=document.createElement('p');result.innerHTML=`${user}`
-
-              display.appendChild(result);
-              result.setAttribute('id','result')
-              const remove=()=>{
-                display.removeChild(result);
-              }
-              setTimeout(()=>remove(),2000)
-            }
-
-            displayError();
-          }
         })
-        .catch(err=>console.log('error'));
+        .catch(err=>{  
+          console.log(err)
+        //   function displayError(){
+        //   const display=document.getElementById('sign-in');
+        //   const result=document.createElement('p');result.innerHTML=`${err}`
+
+        //   display.appendChild(result);
+        //   result.setAttribute('id','result')
+        //   const remove=()=>{
+        //     display.removeChild(result);
+        //   }
+        //   setTimeout(()=>remove(),2000)
+        // }
+
+        // displayError();
+        console.log(err);
+        console.log('hit error')
+      });
     }
 
     render(){
@@ -63,6 +85,7 @@ class SignIn extends React.Component{
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                 <input 
+                 autoComplete='current-password'
                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                 type="email" 
                 name="email-address"  
@@ -73,6 +96,7 @@ class SignIn extends React.Component{
               <div className="mv3">
                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                 <input 
+                autoComplete='current-password'
                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                 type="password" 
                 name="password"  
@@ -86,6 +110,7 @@ class SignIn extends React.Component{
             </fieldset>
             <div className="">
               <input 
+              autoComplete
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
               type="submit" 
               value="Sign in"

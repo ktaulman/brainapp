@@ -24,39 +24,61 @@ class Register extends React.Component{
     this.setState({registerPassword:e.target.value});
   }
 
+  displayError(elementId,errMessage){
+    const display=document.getElementById(elementId);
+    const result=document.createElement('p');result.innerHTML=`${errMessage}`
+
+    display.appendChild(result);
+    result.setAttribute('id','result')
+    const remove=()=>{
+      display.removeChild(result);
+    }
+    setTimeout(()=>remove(),2000)
+  }
+
+
   onRegisterSubmit(e){
+    //prevent mouse click
     e.preventDefault()
+    //access properties and set vars
     const {registerName,registerEmail,registerPassword}=this.state
-      let input={name:registerName,email:registerEmail,password:registerPassword}
-      console.log(process.env)
+    
+    //Body for the POST REQUEST
+    let reqBody={
+          name:registerName,email:registerEmail,password:registerPassword
+        }
+      //POST to API 
       fetch(process.env.REACT_APP_API_ADDRESS+'/register',{
-        
         method:"POST",
-        body:JSON.stringify(input),
+        body:JSON.stringify(reqBody),
         headers:{"Content-Type":"application/json"}
-      }).then(res=>res.json())
-        .then(user=>{
-         
-          if(typeof user==='object'){
-            this.props.loadUser(user);
-            this.props.onRouteChange('home')
-          }else{
-            function displayError(){
-              const display=document.getElementById('registerResult');
-              const result=document.createElement('p');result.innerHTML=`${user}`
-
-              display.appendChild(result);
-              result.setAttribute('id','result')
-              const remove=()=>{
-                display.removeChild(result);
-              }
-              setTimeout(()=>remove(),2000)
-            }
-
-            displayError();
-          }
       })
-        .catch(err=>console.log('this is the err',err))
+      .then(res=>{
+        //error handle
+        if(res.status===400){
+          console.log('res.status=',res.status)
+          return res.json().then(err=>{
+            console.log(err)
+            this.displayError('register-parentNode',err)
+          })
+        }
+        console.log(res)
+      })
+      // .then(user=>{
+      //   console.log(user)
+      //   if(user){
+      //     console.log('user=',user?true:false)
+      //   }
+      // })
+      //   .then(user=>{
+         
+      //     if(typeof user==='object'){
+      //       this.props.loadUser(user);
+      //       this.props.onRouteChange('home')
+      //     }
+      
+      // })
+      //   .catch(err=>console.log('this is the err',err))
     
   }
 
@@ -64,7 +86,7 @@ class Register extends React.Component{
    
     return(
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
-       <main className="pa4 black-80">
+       <main className="pa4 black-80" id='register-parentNode'>
           <form className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 
@@ -72,7 +94,7 @@ class Register extends React.Component{
                 <label className="db fw6 lh-copy f6" htmlFor="name">
                     {"Name"}
                 </label>
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"
+                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"  autoComplete='current-password'
                   onChange={(e)=>this.onNameChange(e)}
                 />
               </div>
@@ -80,7 +102,7 @@ class Register extends React.Component{
               <legend className="f4 fw6 ph0 mh0">Register</legend>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"
+                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"  autoComplete='current-password'
                   onChange={(e)=>this.onEmailChange(e)}
                 />
               </div>
