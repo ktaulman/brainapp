@@ -1,6 +1,7 @@
 {
   "name": "brain_app",
   "version": "0.1.0",
+  "engines":{"node":"10.15.3"},
   "private": true,
   "dependencies": {
     "clarifai": "^2.9.0",
