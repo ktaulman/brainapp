@@ -26,23 +26,39 @@ class Register extends React.Component{
 
   displayError(elementId,errMessage){
     const display=document.getElementById(elementId);
-    const result=document.createElement('p');result.innerHTML=`${errMessage}`
-
-    display.appendChild(result);
-    result.setAttribute('id','result')
+    const error=document.createElement('p');
+    error.innerHTML=`${errMessage}`
+    console.log(error)
+    console.log(display)
+    display.appendChild(error);
+    error.setAttribute('id','result')
+    error.classList.add('dark-red');
     const remove=()=>{
-      display.removeChild(result);
+      display.removeChild(error);
     }
     setTimeout(()=>remove(),2000)
   }
-
+  handleGuestSignIn(){
+    this.props.loadUser({
+      name: "guest", 
+      email: "guest@email.com", 
+      joined: Date.now(), 
+      id: 100100100, 
+      entries: "0"
+    })
+    this.props.onRouteChange('home')
+  }
 
   onRegisterSubmit(e){
     //prevent mouse click
     e.preventDefault()
     //access properties and set vars
     const {registerName,registerEmail,registerPassword}=this.state
-    
+    //if any fields are empty
+    if(!registerName||!registerEmail||!registerPassword){
+      console.log(true)
+      return this.displayError('register','missing fields')
+    }
     //Body for the POST REQUEST
     let reqBody={
           name:registerName,email:registerEmail,password:registerPassword
@@ -54,41 +70,35 @@ class Register extends React.Component{
         headers:{"Content-Type":"application/json"}
       })
       .then(res=>{
+        
         //error handle
         if(res.status===400){
           console.log('res.status=',res.status)
           return res.json().then(err=>{
             console.log(err)
-            this.displayError('register-parentNode',err)
+            this.displayError('register',err)
           })
         }
-        console.log(res)
+        return res.json()
       })
-      // .then(user=>{
-      //   console.log(user)
-      //   if(user){
-      //     console.log('user=',user?true:false)
-      //   }
-      // })
-      //   .then(user=>{
-         
-      //     if(typeof user==='object'){
-      //       this.props.loadUser(user);
-      //       this.props.onRouteChange('home')
-      //     }
-      
-      // })
-      //   .catch(err=>console.log('this is the err',err))
-    
+      .then(user=>{
+        if(typeof user==="object"){
+          console.log(user)
+          this.props.loadUser(user)
+          this.props.onRouteChange('home')
+        }
+      })
+      .catch(err=>console.log(err))
   }
 
   render(){
    
     return(
+      <>
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
        <main className="pa4 black-80" id='register-parentNode'>
           <form className="measure">
-            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+            <fieldset id="register" className="ba b--transparent ph0 mh0">
 
             <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">
@@ -125,8 +135,20 @@ class Register extends React.Component{
             </div>
            
           </form>
+          <div className="lh-copy mt3">
+          <p 
+                className="f6 pointer link dim black db dark-red"
+                onClick={()=>this.handleGuestSignIn()}
+                >
+                Guest Access
+              </p>  
+            </div>
         </main>
+        
+            
     </article>
+   
+            </>
     )}
 }
 

@@ -65,7 +65,7 @@ class SignIn extends React.Component{
           }
         })
         .catch(err=>{  
-          this.displayError('sign-in',err)
+          this.displayError('sign-in','unable to make request')
         });
     }
     //CONSTANTS
@@ -136,7 +136,7 @@ class SignIn extends React.Component{
 
             <div className="lh-copy mt3">
               <p 
-                className="f6 pointer link dim black db hot-pink"
+                className="f6 pointer link dim black db dark-red"
                 onClick={()=>this.handleGuestSignIn()}
                 >
                 Guest Access
