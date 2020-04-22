@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class SignIn extends React.Component{
     constructor(props){
@@ -42,11 +43,16 @@ class SignIn extends React.Component{
       };
     
       //make API request, POST
-      fetch(process.env.REACT_APP_API_ADDRESS+"/signin",{
-        method:"POST",
-        body:JSON.stringify(reqBody),
-        headers:{"Content-Type":"application/json"}
-      })
+      // fetch(process.env.REACT_APP_API_ADDRESS+"/signin",{
+      //   method:"POST",
+      //   body:JSON.stringify(reqBody),
+      //   headers:{
+      //     "Content-Type":"application/json",
+      //     'Accept':'application/json',
+      
+      // }
+      // })
+      axios.post(process.env.REACT_APP_API_ADDRESS='/signin')
         .then(res=>{
           //error handling
           if(res.status===400){
