@@ -1,8 +1,11 @@
 import React from 'react';
+import Logo from '../Logo/Logo';
 
 const Navigation=({onRouteChange,isSignedIn})=>{
    if(isSignedIn){
     return(
+        <>
+  
         <nav 
     style={{display:'flex',justifyContent:'flex-end'}}
     >
@@ -13,10 +16,13 @@ const Navigation=({onRouteChange,isSignedIn})=>{
             Sign Out
             </p>
         </nav>
+        </>
         )
     }
     else{
         return(
+        <>
+        
         <nav 
             style={{display:'flex',justifyContent:'flex-end'}}
             >
@@ -32,6 +38,12 @@ const Navigation=({onRouteChange,isSignedIn})=>{
             Register
             </p>
         </nav>
+        <h1 className='f2'>Brain App</h1>
+        <span className='fl w-100' style={{display:'flex',justifyContent:'center'}}>
+            <Logo/>
+        </span>
+      <h2 className='f5'>We'll find the face for you!</h2>
+        </>
         )
     }
 }

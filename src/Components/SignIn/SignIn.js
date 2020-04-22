@@ -8,6 +8,7 @@ class SignIn extends React.Component{
         signInPassword:'',
       }
     }
+    
     onEmailChange(e){
       this.setState({signInEmail:e.target.value});
     }
@@ -28,13 +29,22 @@ class SignIn extends React.Component{
         setTimeout(()=>remove(),2000)
       }
 
-    onSubmitSignIn=()=>{
-      const{signInEmail,signInPassword}=this.state;
-      const input ={email:signInEmail,password:signInPassword};
+    onSubmitSignIn=(userEmail,userPassword)=>{
+      //filter empty email and password
+      if(!userEmail||!userPassword){
+        return this.displayError('sign-in','missing fields')
+      }
+
+     //Enter req payload body
+      const reqBody ={
+          email:userEmail,
+          password:userPassword
+      };
     
+      //make API request, POST
       fetch(process.env.REACT_APP_API_ADDRESS+"/signin",{
         method:"POST",
-        body:JSON.stringify(input),
+        body:JSON.stringify(reqBody),
         headers:{"Content-Type":"application/json"}
       })
         .then(res=>{
@@ -45,36 +55,32 @@ class SignIn extends React.Component{
             })
           }
           //then parse the json
-          return res.json();
+            return res.json();
         })
         .then(user=>{
-          console.log(user)
-          
           if(typeof user==="object"){
+            console.log(user)
             this.props.loadUser(user)
             this.props.onRouteChange('home')
           }
         })
         .catch(err=>{  
-          console.log(err)
-        //   function displayError(){
-        //   const display=document.getElementById('sign-in');
-        //   const result=document.createElement('p');result.innerHTML=`${err}`
-
-        //   display.appendChild(result);
-        //   result.setAttribute('id','result')
-        //   const remove=()=>{
-        //     display.removeChild(result);
-        //   }
-        //   setTimeout(()=>remove(),2000)
-        // }
-
-        // displayError();
-        console.log(err);
-        console.log('hit error')
-      });
+          this.displayError('sign-in',err)
+        });
     }
-
+    //CONSTANTS
+    handleGuestSignIn(){
+      this.props.loadUser({
+        name: "guest", 
+        email: "guest@email.com", 
+        joined: Date.now(), 
+        id: 100100100, 
+        entries: "0"
+      })
+      this.props.onRouteChange('home')
+    }
+    
+    //RENDERING
     render(){
     return(
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
@@ -114,7 +120,9 @@ class SignIn extends React.Component{
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
               type="submit" 
               value="Sign in"
-              onClick={()=>this.onSubmitSignIn()}
+              onClick={()=>this.onSubmitSignIn(
+                this.state.signInEmail,this.state.signInPassword
+                )}
               // { }    
               />
             </div>
@@ -122,8 +130,17 @@ class SignIn extends React.Component{
               <p 
                 className="f6 pointer link dim black db"
                 onClick={()=>this.props.onRouteChange('register')}
-                >Register</p>
-              
+                >Register
+              </p>  
+            </div>
+
+            <div className="lh-copy mt3">
+              <p 
+                className="f6 pointer link dim black db hot-pink"
+                onClick={()=>this.handleGuestSignIn()}
+                >
+                Guest Access
+              </p>  
             </div>
           </div>
         </main>

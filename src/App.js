@@ -138,7 +138,6 @@ class App extends React.Component{
   //
   render(){
     const {isSignedIn,imageUrl,route,box}=this.state;
-    console.log("rendered",this.state.user,this.state.imageURL);
     return ( 
      
     <div className="App">
@@ -151,6 +150,7 @@ class App extends React.Component{
         onRouteChange={this.onRouteChange}
         isSignedIn={isSignedIn}
       /> 
+    
      {route==="home"? 
      <div>
         <Logo />
