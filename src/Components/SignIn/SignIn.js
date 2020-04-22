@@ -52,7 +52,7 @@ class SignIn extends React.Component{
       
       // }
       // })
-      axios.post(process.env.REACT_APP_API_ADDRESS='/signin')
+      axios.post(process.env.REACT_APP_API_ADDRESS+'/signin')
         .then(res=>{
           //error handling
           if(res.status===400){
