@@ -3,21 +3,20 @@
 ## Core Website Features 
 
 ### 1. Facial Recogition
-![](http://brainapp.kevintaulman.com/FaceDetection.gif)
+![](https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif)
 
 
 Facial Recogniton provided by Clarifai's API
 
 
 ### 2. SignIn
-![](http://brainapp.kevintaulman.com/SignIn.gif)
+![](https://media.giphy.com/media/XDWTpB2Bd2bbMqcYnx/giphy.gif)
 
 
 Connects to Node server which reads hashed password from PostgresQL db and returns user data or error. 
 
 ### 3. Registration
-
-![](http://brainapp.kevintaulman.com/Register.gif)
+![](https://media.giphy.com/media/Kg9TrqMXM7h7dCmdYm/giphy.gif)
 
 
 Connects to Node server which handles encryption, Postgres db insertion, and error handling.
