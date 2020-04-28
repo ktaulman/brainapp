@@ -3,12 +3,12 @@
 ## Core Website Features 
 
 ### 1. Facial Recogition
-<img src="https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif"/>
+![](https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif)
 
 Facial Recogniton provided by Clarifai's API
 
 ### 2. SignIn
-<img src='https://media.giphy.com/media/URw2gIj9P1QokMIZeV/giphy.gif'/>
+![](https://gph.is/g/aj17D7j)
 
 Connects to Node server which reads hashed password from PostgresQL db and returns user data or error. 
 
