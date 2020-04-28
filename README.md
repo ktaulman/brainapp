@@ -3,10 +3,9 @@
 ## Core Website Features 
 
 ### 1. Facial Recogition
-<img src="https://giphy.com/embed/j0eBUmeqSxIvcWlE6x" width="300" height="251"/>
+<img src="https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif" width="300" />
 
-
-<img src='https://media.giphy.com/media/f8PtgLHDBoT0ltFtPH/200w_d.gif' width='300' />
+<img src='https://media.giphy.com/media/f8PtgLHDBoT0ltFtPH/giphy.gif' width='300' />
 
 
 - - - - 
