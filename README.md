@@ -3,19 +3,19 @@
 ## Core Website Features 
 
 ### 1. Facial Recogition
-![flavortown](https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif)
+![](https://media.giphy.com/media/j0eBUmeqSxIvcWlE6x/giphy.gif)
 
 
 Facial Recogniton provided by Clarifai's API
 
 ### 2. SignIn
-![SignIn](https://media.giphy.com/media/URw2gIj9P1QokMIZeV/giphy.gif)
+![](https://media.giphy.com/media/URw2gIj9P1QokMIZeV/giphy.gif)
 
 
 Connects to Node server which reads hashed password from PostgresQL db and returns user data or error. 
 
 ### 3. Registration
-![Registration](https://media.giphy.com/media/Kg9TrqMXM7h7dCmdYm/giphy.gif)
+![](https://media.giphy.com/media/Kg9TrqMXM7h7dCmdYm/giphy.gif)
 
 
 Connects to Node server which handles encryption, Postgres db insertion, and error handling.
